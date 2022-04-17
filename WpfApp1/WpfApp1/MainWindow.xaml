@@ -1,0 +1,74 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid x:Name="MainGrid" Margin="20,15,20,15" >
+            <Grid.RowDefinitions>
+                <!-- 1 - Valuta, Trziste, Dugme -->
+                <RowDefinition Height="Auto"/>
+                <!-- 2 - Vrsta, Interval, Vreme-->
+                <RowDefinition Height="Auto"/>
+                <!-- 3 - Grafik -->
+                <RowDefinition Height="Auto"/>
+                <!-- 4 - Tabela -->
+                <RowDefinition Height="Auto"/>
+                <!-- OSTALO -->
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="valuta" Content="Valuta:" Style="{DynamicResource MaterialDesignLabel}" FontSize="18" Width="71"/>
+                    <ComboBox x:Name="valutaCb" Style="{DynamicResource MaterialDesignComboBox}" Width="120"/>
+                    <Separator Width="50" Background="Transparent"/>
+                    <Label x:Name="trziste" Content="Tržište:" Style="{DynamicResource MaterialDesignLabel}" FontSize="18" Width="71"/>
+                    <ComboBox x:Name="trzisteCb" Style="{DynamicResource MaterialDesignComboBox}" Width="120"/>
+                    <Separator Width="50" Background="Transparent"/>
+                </StackPanel>
+                <Button x:Name="startBtn" Content="Pokreni" Style="{DynamicResource MaterialDesignFlatDarkBgButton}" FontSize="18" HorizontalAlignment="Right"/>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Label x:Name="vrsta" Content="Vrsta:" Style="{DynamicResource MaterialDesignLabel}" FontSize="18" Width="71"/>
+                    <ComboBox x:Name="vrstaCb" Style="{DynamicResource MaterialDesignComboBox}" Width="120">
+                        <ComboBoxItem Content="Open" Tag="open"/>
+                        <ComboBoxItem Content="Close" Tag="close"/>
+                        <ComboBoxItem Content="Low" Tag="low"/>
+                        <ComboBoxItem Content="High" Tag="high"/>
+                    </ComboBox>
+                    <Separator Width="50" Background="Transparent"/>
+                    <Label x:Name="interval" Content="Interval:" Style="{DynamicResource MaterialDesignLabel}" FontSize="18" Width="71"/>
+                    <ComboBox x:Name="intervalCb" Style="{DynamicResource MaterialDesignComboBox}" Width="120">
+                        <ComboBoxItem Content="U jednom danu" Tag="intraday"/> 
+                        <ComboBoxItem Content="Dnevno" Tag="daily"/>
+                        <ComboBoxItem Content="Nedeljno" Tag="weekly"/>
+                        <ComboBoxItem Content="Mesečno" Tag="monthly"/>
+                    </ComboBox>
+                    <Separator Width="50" Background="Transparent"/>
+                    <Label x:Name="vreme" Visibility="Hidden" Content="Vreme:" Style="{DynamicResource MaterialDesignLabel}" FontSize="18" Width="71"/>
+                    <ComboBox x:Name="vremelCb" Visibility="Hidden" Style="{DynamicResource MaterialDesignComboBox}" Width="120">
+                        <ComboBoxItem Content="1 minut" Tag="1min"/>
+                        <ComboBoxItem Content="5 minuta" Tag="5min"/>
+                        <ComboBoxItem Content="15 minuta" Tag="15min"/>
+                        <ComboBoxItem Content="30 minuta" Tag="30min"/>
+                        <ComboBoxItem Content="60 minuta" Tag="60min"/>
+                    </ComboBox>
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+    </ScrollViewer>
+</Window>
