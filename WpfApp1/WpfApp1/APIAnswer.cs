@@ -12,6 +12,7 @@ namespace WpfApp1
         public MetaData? metaData { get; set; }
         public List<MarketCapInfo> marketCapInfos { get; set; }
 
-
+        public bool IsIntraday { get; set; }
+        public string? Vrsta { get; set; }
     }
 }

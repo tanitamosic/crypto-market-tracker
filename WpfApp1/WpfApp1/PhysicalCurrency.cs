@@ -13,5 +13,20 @@ namespace WpfApp1
 
         public string CurrencyName { get; set; }
 
+        public override string ToString()
+        {
+            return CurrencyCode + " , " + CurrencyName;
+        }
+        /// <summary>
+        /// convert from string to object
+        /// </summary>
+        /// <param name="fromstring"> can only be of format gotten from ToString() method.</param>
+        public PhysicalCurrency(string fromstring)
+        {
+            CurrencyCode = fromstring.Split(" , ")[0];
+            CurrencyName = fromstring.Split(" , ")[1];
+        }
+
+        public PhysicalCurrency() {}
     }
 }

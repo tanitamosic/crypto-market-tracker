@@ -36,7 +36,7 @@
                     <ComboBox x:Name="trzisteCb" Style="{DynamicResource MaterialDesignComboBox}" Width="120"/>
                     <Separator Width="50" Background="Transparent"/>
                 </StackPanel>
-                <Button x:Name="startBtn" Content="Pokreni" Style="{DynamicResource MaterialDesignFlatDarkBgButton}" FontSize="18" HorizontalAlignment="Right"/>
+                <Button x:Name="startBtn" Content="Pokreni" Style="{DynamicResource MaterialDesignFlatDarkBgButton}" FontSize="18" HorizontalAlignment="Right" Click="BtnStart_Click"/>
             </Grid>
 
             <Grid Grid.Row="2">
@@ -51,24 +51,53 @@
                     <Separator Width="50" Background="Transparent"/>
                     <Label x:Name="interval" Content="Interval:" Style="{DynamicResource MaterialDesignLabel}" FontSize="18" Width="71"/>
                     <ComboBox x:Name="intervalCb" Style="{DynamicResource MaterialDesignComboBox}" Width="120">
-                        <ComboBoxItem Content="U jednom danu" Tag="intraday"/> 
+                        <ComboBoxItem Content="U jednom danu" Tag="intraday"/>
                         <ComboBoxItem Content="Dnevno" Tag="daily"/>
                         <ComboBoxItem Content="Nedeljno" Tag="weekly"/>
                         <ComboBoxItem Content="Mesečno" Tag="monthly"/>
                     </ComboBox>
                     <Separator Width="50" Background="Transparent"/>
-                    <Label x:Name="vreme" Visibility="Hidden" Content="Vreme:" Style="{DynamicResource MaterialDesignLabel}" FontSize="18" Width="71"/>
-                    <ComboBox x:Name="vremelCb" Visibility="Hidden" Style="{DynamicResource MaterialDesignComboBox}" Width="120">
+                    <Label x:Name="vreme" Content="Vreme:" FontSize="18" Width="71">
+                        <Label.Style>
+                            <Style>
+                                <Setter Property="Label.Visibility" Value="Hidden"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger  
+                                        Binding="{Binding ElementName=intervalCb, Path=SelectedItem.Tag}" Value="intraday">
+                                        <Setter Property="Label.Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                    <ComboBox x:Name="vremelCb" Width="120">
                         <ComboBoxItem Content="1 minut" Tag="1min"/>
                         <ComboBoxItem Content="5 minuta" Tag="5min"/>
                         <ComboBoxItem Content="15 minuta" Tag="15min"/>
                         <ComboBoxItem Content="30 minuta" Tag="30min"/>
                         <ComboBoxItem Content="60 minuta" Tag="60min"/>
+                        <ComboBox.Style>
+
+                            <Style>
+                                <Setter Property="ComboBox.Visibility" Value="Hidden"></Setter>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=intervalCb, Path=SelectedItem.Tag}" Value="intraday">
+                                        <Setter Property="ComboBox.Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
                     </ComboBox>
                 </StackPanel>
 
             </Grid>
-
+            <Grid Grid.Row="4">
+                <DataGrid x:Name="dataGrid">
+                    
+                </DataGrid>
+            </Grid>
         </Grid>
+       
     </ScrollViewer>
 </Window>
