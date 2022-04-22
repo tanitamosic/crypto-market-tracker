@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
@@ -92,12 +93,19 @@
                 </StackPanel>
 
             </Grid>
+            <Grid Grid.Row="3">
+                <!-- <Canvas>-->
+                    <lvc:CartesianChart Name="dataChart" Margin="4"
+                        Series="{Binding SeriesCollection}"/>
+                <!-- </Canvas>-->
+                
+            </Grid>
             <Grid Grid.Row="4">
                 <DataGrid x:Name="dataGrid">
-                    
+
                 </DataGrid>
             </Grid>
         </Grid>
-       
+
     </ScrollViewer>
 </Window>

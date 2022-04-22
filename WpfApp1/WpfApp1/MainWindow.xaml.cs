@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -25,6 +27,7 @@ namespace WpfApp1
         private List<DigitalCurrency> digitalCurrencyList = new List<DigitalCurrency>();
         private List<PhysicalCurrency> physicalCurrencyList = new List<PhysicalCurrency>();
         private DataTable dt = new DataTable();
+        public SeriesCollection SeriesCollection = new SeriesCollection();
         public MainWindow()
         {
             InitializeComponent();
@@ -100,29 +103,92 @@ namespace WpfApp1
             APIAnswer answer = GetAnswer();
             if (answer != null)
             {
-                dt.Clear();
-                dt.Columns.Add("Timestamp");
-                dt.Columns.Add(answer.Vrsta);
-                dt.Columns.Add("Volume");
-
-                foreach (MarketCapInfo mci in answer.marketCapInfos)
-                {
-                    DataRow dr = dt.NewRow();
-                    dr["Timestamp"] = mci.Vreme.ToString();
-                    switch (answer.Vrsta)
-                    {
-                        case "Open":  dr[answer.Vrsta] = mci.OpenFirstCurrency.ToString();  break;
-                        case "Close": dr[answer.Vrsta] = mci.CloseFirstCurrency.ToString(); break;
-                        case "Low":   dr[answer.Vrsta] = mci.LowFirstCurrency.ToString();   break;
-                        case "High":  dr[answer.Vrsta] = mci.HighFirstCurrency.ToString();  break;
-                        default: break;
-                    }
-                    dr["Volume"] = mci.Volume.ToString();
-                    dt.Rows.Add(dr);
-                }
-                dataGrid.ItemsSource = dt.DefaultView;
+                answer.SortAnswers();
+                DrawGraph(answer);
+                FillTable(answer);
             }
         }
+        private void DrawGraph(APIAnswer answer)
+        {
+            SeriesCollection.Clear();
+            var lineSeries1 = new LineSeries
+            {
+                Title = "Open",
+                Values = answer.GetOpenFirstValues(),
+                DataLabels = true,
+                Stroke = Brushes.Green,
+                Fill = Brushes.Transparent,
+                ScalesYAt = 0,
+                Focusable = true
+            };
+            var lineSeries2 = new LineSeries
+            {
+                Title = "Close",
+                Values = answer.GetClosedFirstValues(),
+                DataLabels = true,
+                Stroke = Brushes.Yellow,
+                Fill = Brushes.Transparent,
+                ScalesYAt = 0,
+                Focusable = true
+            };
+            var lineSeries3 = new LineSeries
+            {
+                Title = "Low",
+                Values = answer.GetLowFirstValues(),
+                DataLabels = true,
+                Stroke = Brushes.Red,
+                Fill = Brushes.Transparent,
+                ScalesYAt = 0,
+                Focusable = true
+            };
+            var lineSeries4 = new LineSeries
+            {
+                Title = "High",
+                Values = answer.GetHighFirstValues(),
+                DataLabels = true,
+                Stroke = Brushes.Blue,
+                Fill = Brushes.Transparent,
+                ScalesYAt = 0,
+                Focusable = true
+            };
+
+            SeriesCollection.Add(lineSeries1);
+            SeriesCollection.Add(lineSeries2);
+            SeriesCollection.Add(lineSeries3);
+            SeriesCollection.Add(lineSeries4);
+
+            dataChart.AxisY.Add(new Axis());
+            dataChart.AxisX.Add(new Axis());
+
+        }
+        private void FillTable(APIAnswer answer)
+        {
+            dt.Clear();
+            dt.Columns.Clear();
+
+            dt.Columns.Add("Timestamp");
+            dt.Columns.Add(answer.Vrsta);
+            dt.Columns.Add("Volume");
+
+            foreach (MarketCapInfo mci in answer.marketCapInfos)
+            {
+                DataRow dr = dt.NewRow();
+                dr["Timestamp"] = mci.Timestamp.ToString();
+                switch (answer.Vrsta)
+                {
+                    case "Open": dr[answer.Vrsta] = mci.OpenFirstCurrency.ToString(); break;
+                    case "Close": dr[answer.Vrsta] = mci.CloseFirstCurrency.ToString(); break;
+                    case "Low": dr[answer.Vrsta] = mci.LowFirstCurrency.ToString(); break;
+                    case "High": dr[answer.Vrsta] = mci.HighFirstCurrency.ToString(); break;
+                    default: break;
+                }
+                dr["Volume"] = mci.Volume.ToString();
+                dt.Rows.Add(dr);
+            }
+            dataGrid.ItemsSource = dt.DefaultView;
+            dataGrid.IsReadOnly = true;
+        }
+
         private APIAnswer GetAnswer()
         {
             try

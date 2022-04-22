@@ -174,7 +174,7 @@ namespace WpfApp1
                 MarketCapInfo marketCapInfo = new MarketCapInfo();
                 string format = "yyyy-MM-dd HH:mm:ss";
                 DateTime dateTime = DateTime.ParseExact(datum, format, CultureInfo.InvariantCulture);
-                marketCapInfo.Vreme = dateTime;
+                marketCapInfo.Timestamp = dateTime;
 
                 foreach (KeyValuePair<string, object> kvp in value_list)
                 {
@@ -222,7 +222,7 @@ namespace WpfApp1
                 MarketCapInfo marketCapInfo = new MarketCapInfo();
                 string format = "yyyy-MM-dd";
                 DateTime dateTime = DateTime.ParseExact(datum, format, CultureInfo.InvariantCulture);
-                marketCapInfo.Vreme = dateTime;
+                marketCapInfo.Timestamp = dateTime;
 
                 foreach (KeyValuePair<string, object> kvp in value_list)
                 {

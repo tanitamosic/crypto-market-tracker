@@ -8,7 +8,7 @@ namespace WpfApp1
 {
     public class MarketCapInfo
     {
-        public DateTime Vreme { get; set; }
+        public DateTime Timestamp { get; set; }
 
         public double OpenFirstCurrency { get; set; }
 
@@ -32,7 +32,7 @@ namespace WpfApp1
 
         public override string ToString()
         {
-            return $"Vreme: {Vreme}\nOpen: {OpenFirstCurrency}\n" +
+            return $"Vreme: {Timestamp}\nOpen: {OpenFirstCurrency}\n" +
                 $"High: {HighFirstCurrency}\nLow: {LowFirstCurrency}\n" +
                 $"Close: {CloseFirstCurrency}\nVolume: {Volume}\nMarketCap: {MarketCap}";
         }
