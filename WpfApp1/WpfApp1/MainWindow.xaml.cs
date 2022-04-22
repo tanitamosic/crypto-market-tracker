@@ -145,7 +145,12 @@ namespace WpfApp1
                 string interval = "";
 
                 // TODO: NULL CHECK 
-                if (function == "CRYPTO_INTRADAY") interval = ((ComboBoxItem)vremelCb.SelectedItem).Content.ToString();
+                if (function == "CRYPTO_INTRADAY")
+                {
+                    interval = ((ComboBoxItem)vremelCb.SelectedItem).Content.ToString();
+                    interval = interval.Split(" ")[0];
+                    interval += "min";
+                }
                 // TODO: PROPER ERROR POP-UP
                 if (interval == "" && function == "CRYPTO_INTRADAY") { Console.WriteLine("Vreme mora biti selektovano za Interval 'u jednom danu'."); return null; }
 

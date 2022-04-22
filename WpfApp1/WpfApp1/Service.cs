@@ -6,6 +6,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WpfApp1
 {
@@ -34,11 +36,31 @@ namespace WpfApp1
             dynamic json_data;
             using (WebClient client = new WebClient())
             {
-                json_data = JsonSerializer.Deserialize<Dictionary<string, dynamic>>(client.DownloadString(queryUri));
+                //json_data = JsonSerializer.Deserialize<Dictionary<string, dynamic>>(client.DownloadString(queryUri));
+                string data = client.DownloadString(queryUri);
+                json_data = deserializeToDictionary(data);
             }
             return json_data;
         }
 
+        private Dictionary<string, object> deserializeToDictionary(string jo)
+        {
+            var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(jo);
+            var values2 = new Dictionary<string, object>();
+            foreach (KeyValuePair<string, object> d in values)
+            {
+                // if (d.Value.GetType().FullName.Contains("Newtonsoft.Json.Linq.JObject"))
+                if (d.Value is JObject)
+                {
+                    values2.Add(d.Key, deserializeToDictionary(d.Value.ToString()));
+                }
+                else
+                {
+                    values2.Add(d.Key, d.Value);
+                }
+            }
+            return values2;
+        }
 
         public string GenerateURL(string function, string symbol, string market, string interval, string outputsize)
         {
