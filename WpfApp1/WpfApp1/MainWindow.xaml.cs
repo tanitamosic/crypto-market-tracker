@@ -28,7 +28,6 @@ namespace WpfApp1
             ReadDigitalCurrency();
             ReadPhysicalCurrency();
             FillComboBoxes();
-            DrawGraph_Example();
             
         }
 
@@ -102,77 +101,12 @@ namespace WpfApp1
             {
                 answer.SortAnswers();
                 FillTable(answer);
-                DrawGraph(answer);
+                Window1 w = new Window1(answer);
+                w.Activate();
+                w.Show();
                 
             }
         }
-        private void DrawGraph_Example()
-        {
-            ChartValues<double> values = new ChartValues<double> { 3, 5, 7, 9 };
-
-            var lineSeries1 = new LineSeries()
-            {
-                Title = "Ime",
-                Fill = Brushes.Transparent,
-                Values = values,
-                PointGeometrySize = 5
-            };
-
-            SeriesCollection.Clear();
-            SeriesCollection.Add(lineSeries1);
-            dataChart.Update();
-        }
-
-        private void DrawGraph(APIAnswer answer)
-        {
-            SeriesCollection.Clear();
-            var lineSeries1 = new LineSeries
-            {
-                Title = "Open",
-                Values = answer.GetOpenFirstValues(),
-                Stroke = Brushes.Green,
-                Fill = Brushes.Transparent,
-                Focusable = true
-            };
-            var lineSeries2 = new LineSeries
-            {
-                Title = "Close",
-                Values = answer.GetClosedFirstValues(),
-                Stroke = Brushes.Yellow,
-                Fill = Brushes.Transparent,
-                Focusable = true
-            };
-            var lineSeries3 = new LineSeries
-            {
-                Title = "Low",
-                Values = answer.GetLowFirstValues(),
-                Stroke = Brushes.Red,
-                Fill = Brushes.Transparent,
-                Focusable = true
-            };
-            var lineSeries4 = new LineSeries
-            {
-                Title = "High",
-                Values = answer.GetHighFirstValues(),
-                Stroke = Brushes.Blue,
-                Fill = Brushes.Transparent,
-                Focusable = true
-            };
-
-            SeriesCollection.Add(lineSeries1);
-            SeriesCollection.Add(lineSeries2);
-            SeriesCollection.Add(lineSeries3);
-            SeriesCollection.Add(lineSeries4);
-
-
-            //dataChart.AxisX.Clear();
-            //dataChart.AxisY.Clear();
-            //dataChart.AxisY.Add(new Axis());
-            //dataChart.AxisX.Add(new Axis());
-
-            dataChart.Series = SeriesCollection;
-        }
-
         private void FillTable(APIAnswer answer)
         {
             dt.Clear();
