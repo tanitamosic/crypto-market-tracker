@@ -32,6 +32,23 @@ namespace WpfApp1
             
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+
         private void FillComboBoxes()
         {
             foreach (DigitalCurrency digitalCurrency in digitalCurrencyList)
@@ -84,8 +101,9 @@ namespace WpfApp1
             if (answer != null)
             {
                 answer.SortAnswers();
-                DrawGraph(answer);
                 FillTable(answer);
+                DrawGraph(answer);
+                
             }
         }
         private void DrawGraph_Example()
@@ -128,20 +146,16 @@ namespace WpfApp1
             {
                 Title = "Low",
                 Values = answer.GetLowFirstValues(),
-                DataLabels = true,
                 Stroke = Brushes.Red,
                 Fill = Brushes.Transparent,
-                ScalesYAt = 1,
                 Focusable = true
             };
             var lineSeries4 = new LineSeries
             {
                 Title = "High",
                 Values = answer.GetHighFirstValues(),
-                DataLabels = true,
                 Stroke = Brushes.Blue,
                 Fill = Brushes.Transparent,
-                ScalesYAt = 1,
                 Focusable = true
             };
 
@@ -156,7 +170,7 @@ namespace WpfApp1
             //dataChart.AxisY.Add(new Axis());
             //dataChart.AxisX.Add(new Axis());
 
-            //dataChart.Series = SeriesCollection;
+            dataChart.Series = SeriesCollection;
         }
 
         private void FillTable(APIAnswer answer)
