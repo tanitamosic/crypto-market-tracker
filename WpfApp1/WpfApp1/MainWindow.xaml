@@ -12,6 +12,7 @@
         TextElement.FontSize="14"
         FontFamily="{materialDesign:MaterialDesignFont}"
         mc:Ignorable="d"
+        d:DesignHeight="300" d:DataContext="{d:DesignInstance local:MainWindow}"
         Title="MainWindow" Height="450" Width="800">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
@@ -94,11 +95,17 @@
 
             </Grid>
             <Grid Grid.Row="3">
-                <!-- <Canvas>-->
-                    <lvc:CartesianChart Name="dataChart" Margin="4"
-                        Series="{Binding SeriesCollection}"/>
-                <!-- </Canvas>-->
-                
+                <lvc:CartesianChart Name="dataChart" Margin="15 15 15 15" Series="{Binding SeriesCollection}">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis LabelsRotation="20" Title="Dates">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+
+
             </Grid>
             <Grid Grid.Row="4">
                 <DataGrid x:Name="dataGrid">

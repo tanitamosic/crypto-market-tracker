@@ -5,17 +5,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfApp1
 {
@@ -27,13 +19,17 @@ namespace WpfApp1
         private List<DigitalCurrency> digitalCurrencyList = new List<DigitalCurrency>();
         private List<PhysicalCurrency> physicalCurrencyList = new List<PhysicalCurrency>();
         private DataTable dt = new DataTable();
-        public SeriesCollection SeriesCollection = new SeriesCollection();
+        public SeriesCollection SeriesCollection { get; set; }
         public MainWindow()
         {
+            SeriesCollection = new SeriesCollection();
+            DataContext = this;
             InitializeComponent();
             ReadDigitalCurrency();
             ReadPhysicalCurrency();
             FillComboBoxes();
+            DrawGraph_Example();
+            
         }
 
         private void FillComboBoxes()
@@ -82,22 +78,6 @@ namespace WpfApp1
             sr.Close();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-            
-        }
-
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-        }
-
         private void BtnStart_Click(object sender, RoutedEventArgs e)
         {
             APIAnswer answer = GetAnswer();
@@ -108,6 +88,23 @@ namespace WpfApp1
                 FillTable(answer);
             }
         }
+        private void DrawGraph_Example()
+        {
+            ChartValues<double> values = new ChartValues<double> { 3, 5, 7, 9 };
+
+            var lineSeries1 = new LineSeries()
+            {
+                Title = "Ime",
+                Fill = Brushes.Transparent,
+                Values = values,
+                PointGeometrySize = 5
+            };
+
+            SeriesCollection.Clear();
+            SeriesCollection.Add(lineSeries1);
+            dataChart.Update();
+        }
+
         private void DrawGraph(APIAnswer answer)
         {
             SeriesCollection.Clear();
@@ -115,20 +112,16 @@ namespace WpfApp1
             {
                 Title = "Open",
                 Values = answer.GetOpenFirstValues(),
-                DataLabels = true,
                 Stroke = Brushes.Green,
                 Fill = Brushes.Transparent,
-                ScalesYAt = 0,
                 Focusable = true
             };
             var lineSeries2 = new LineSeries
             {
                 Title = "Close",
                 Values = answer.GetClosedFirstValues(),
-                DataLabels = true,
                 Stroke = Brushes.Yellow,
                 Fill = Brushes.Transparent,
-                ScalesYAt = 0,
                 Focusable = true
             };
             var lineSeries3 = new LineSeries
@@ -138,7 +131,7 @@ namespace WpfApp1
                 DataLabels = true,
                 Stroke = Brushes.Red,
                 Fill = Brushes.Transparent,
-                ScalesYAt = 0,
+                ScalesYAt = 1,
                 Focusable = true
             };
             var lineSeries4 = new LineSeries
@@ -148,7 +141,7 @@ namespace WpfApp1
                 DataLabels = true,
                 Stroke = Brushes.Blue,
                 Fill = Brushes.Transparent,
-                ScalesYAt = 0,
+                ScalesYAt = 1,
                 Focusable = true
             };
 
@@ -157,10 +150,15 @@ namespace WpfApp1
             SeriesCollection.Add(lineSeries3);
             SeriesCollection.Add(lineSeries4);
 
-            dataChart.AxisY.Add(new Axis());
-            dataChart.AxisX.Add(new Axis());
 
+            //dataChart.AxisX.Clear();
+            //dataChart.AxisY.Clear();
+            //dataChart.AxisY.Add(new Axis());
+            //dataChart.AxisX.Add(new Axis());
+
+            //dataChart.Series = SeriesCollection;
         }
+
         private void FillTable(APIAnswer answer)
         {
             dt.Clear();
