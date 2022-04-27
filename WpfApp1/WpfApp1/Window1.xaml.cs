@@ -30,41 +30,14 @@ namespace WpfApp1
             SeriesCollection.Clear();
             var lineSeries1 = new LineSeries
             {
-                Title = "Open",
-                Values = answer.GetOpenFirstValues(),
+                Title = answer.Vrsta,
+                Values = answer.GetValues(),
                 Stroke = Brushes.Green,
-                Fill = Brushes.Transparent,
-                Focusable = true
-            };
-            var lineSeries2 = new LineSeries
-            {
-                Title = "Close",
-                Values = answer.GetClosedFirstValues(),
-                Stroke = Brushes.Yellow,
-                Fill = Brushes.Transparent,
-                Focusable = true
-            };
-            var lineSeries3 = new LineSeries
-            {
-                Title = "Low",
-                Values = answer.GetLowFirstValues(),
-                Stroke = Brushes.Red,
-                Fill = Brushes.Transparent,
-                Focusable = true
-            };
-            var lineSeries4 = new LineSeries
-            {
-                Title = "High",
-                Values = answer.GetHighFirstValues(),
-                Stroke = Brushes.Blue,
                 Fill = Brushes.Transparent,
                 Focusable = true
             };
 
             SeriesCollection.Add(lineSeries1);
-            SeriesCollection.Add(lineSeries2);
-            SeriesCollection.Add(lineSeries3);
-            SeriesCollection.Add(lineSeries4);
 
 
             dataChart.AxisX.Clear();

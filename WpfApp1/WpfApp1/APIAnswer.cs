@@ -24,6 +24,20 @@ namespace WpfApp1
             marketCapInfos = temp.ToList();
         }
 
+        public ChartValues<double> GetValues()
+        {
+            var values = new ChartValues<double>();
+            switch (Vrsta)
+            {
+                case "Open": values = GetOpenFirstValues(); break;
+                case "Close": values = GetClosedFirstValues(); break;
+                case "Low": values = GetLowFirstValues(); break;
+                case "High": values = GetHighFirstValues(); break;
+                default: break;
+            }
+            return values;
+        }
+
         public ChartValues<double> GetOpenFirstValues()
         {
             ChartValues<double> values = new ChartValues<double>();
