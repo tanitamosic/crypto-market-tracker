@@ -19,6 +19,7 @@ namespace WpfApp1
         private List<DigitalCurrency> digitalCurrencyList = new List<DigitalCurrency>();
         private List<PhysicalCurrency> physicalCurrencyList = new List<PhysicalCurrency>();
         private DataTable dt = new DataTable();
+        private ComboBoxItem cbi;
         public SeriesCollection SeriesCollection { get; set; }
         public MainWindow()
         {
@@ -139,32 +140,43 @@ namespace WpfApp1
         {
             try
             {
-                string pcstring = (string)trzisteCb.SelectedItem;
-                PhysicalCurrency pc = new PhysicalCurrency(pcstring);
                 string dcstring = (string)valutaCb.SelectedItem;
+                if (dcstring == null) throw new Exception("Morate selektovati valutu.");
                 DigitalCurrency dc = new DigitalCurrency(dcstring);
-                
-                // TODO: NULL CHECK
-                string function = ((ComboBoxItem)intervalCb.SelectedItem).Content.ToString();
+                string pcstring = (string)trzisteCb.SelectedItem;
+                if (pcstring == null) throw new Exception("Morate selektovati tržište.");
+                PhysicalCurrency pc = new PhysicalCurrency(pcstring);
+
+                cbi = (ComboBoxItem)intervalCb.SelectedItem;
+                if (cbi == null) throw new Exception("Morate selektovati interval.");
+                string function = cbi.Content.ToString();
                 switch (function)
                 {
                     case "U jednom danu": function = "CRYPTO_INTRADAY"; break;
                     case "Dnevno": function = "DIGITAL_CURRENCY_DAILY"; break;
                     case "Nedeljno": function = "DIGITAL_CURRENCY_WEEKLY"; break;
                     case "Mesečno": function = "DIGITAL_CURRENCY_MONTHLY"; break;
-                    default: Console.WriteLine("Interval mora biti selektovan."); return null;
+                    default:
+                        string message = "Interval mora biti selektovan.";
+                        Console.WriteLine(message);
+                        throw new Exception(message);
                 }
                 string interval = "";
 
-                // TODO: NULL CHECK 
                 if (function == "CRYPTO_INTRADAY")
                 {
-                    interval = ((ComboBoxItem)vremelCb.SelectedItem).Content.ToString();
+                    cbi = (ComboBoxItem)vremelCb.SelectedItem;
+                    if (cbi == null) throw new Exception("Morate selektovati vreme.");
+                    interval = cbi.Content.ToString();
                     interval = interval.Split(" ")[0];
                     interval += "min";
                 }
-                // TODO: PROPER ERROR POP-UP
-                if (interval == "" && function == "CRYPTO_INTRADAY") { Console.WriteLine("Vreme mora biti selektovano za Interval 'u jednom danu'."); return null; }
+                if (interval == "" && function == "CRYPTO_INTRADAY") 
+                {
+                    string message = "Vreme mora biti selektovano za Interval 'u jednom danu'.";
+                    Console.WriteLine(message);
+                    throw new Exception(message);
+                }
 
                 string outputsize = "";
                 Service service = new Service();
@@ -172,14 +184,15 @@ namespace WpfApp1
                 // return value
                 APIAnswer answer = service.PullData(function, dc, pc, interval, outputsize);
                 answer.IsIntraday = function == "CRYPTO_INTRADAY";
-                answer.Vrsta = ((ComboBoxItem)vrstaCb.SelectedItem).Content.ToString();
+                cbi = (ComboBoxItem)vrstaCb.SelectedItem;
+                if (cbi == null) throw new Exception("Morate selektovati vrstu.");
+                answer.Vrsta = cbi.Content.ToString();
                 return answer;
                
             }
             catch (Exception ex)
             {
-                // TODO: PROPER ERROR POP-UP + (DRUGA PORUKA)
-                Console.WriteLine("Valuta i Trziste moraju biti selektovani");
+                MessageBox.Show("Greška: " + ex.Message);
                 return null;
             }
         }

@@ -8,5 +8,6 @@ namespace WpfApp1
 {
     public class ErrorFromAPI : Exception
     {
+        public override string Message => "API nije vratio odgovor";
     }
 }
