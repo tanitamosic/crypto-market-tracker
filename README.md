@@ -1,2 +1,2 @@
-# HCI-mini-projekat
-Mini projekat za HCI. Tim 17, Grupa 4.
+# Crypto Martket Tracker
+Prvi projekat za HCI. Tim 17, Grupa 4.
